@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "443:443"
+    volumes:
+      - ./kamino:/usr/share/nginx/html:ro
+    networks:
+      - webnet
+    depends_on:
+      - api
+
+  api:
+    image: golang:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - webnet
+    # Here you can mount the directory where your Go API code is located
+    volumes:
+      - ./cyclone:/opt/cyclone
+    working_dir: /opt/cyclone
+    command: go run .
+
+  ldap:
+    image: osixia/openldap:latest
+    environment:
+      LDAP_ORGANISATION: "Kamino Labs"
+      LDAP_DOMAIN: "kamino.labs"
+      LDAP_ADMIN_PASSWORD: "changeme"
+    networks:
+      - webnet
+    # LDAP needs a volume to persist data
+    volumes:
+      - ldap_data:/var/lib/ldap
+      - ldap_slapd:/etc/ldap/slapd.d
+
+networks:
+  webnet:
+
+volumes:
+  ldap_data:
+  ldap_slapd:

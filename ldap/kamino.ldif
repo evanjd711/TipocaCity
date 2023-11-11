@@ -1,0 +1,41 @@
+version: 1
+
+#
+# LDAPv3
+# base <dc=kamino,dc=labs> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# kamino.labs
+dn: dc=kamino,dc=labs
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: kamino.labs
+dc: kamino
+
+# groups, kamino.labs
+dn: ou=groups,dc=kamino,dc=labs
+objectClass: organizationalUnit
+ou: groups
+
+# applications, kamino.labs
+dn: ou=applications,dc=kamino,dc=labs
+objectClass: organizationalUnit
+ou: applications
+
+# guacamole, kamino.labs
+dn: ou=guacamole,dc=kamino,dc=labs
+objectClass: organizationalUnit
+ou: guacamole
+
+# kamino, kamino.labs
+dn: ou=kamino,dc=kamino,dc=labs
+objectClass: organizationalUnit
+ou: kamino
+
+# users, kamino.labs
+dn: ou=users,dc=kamino,dc=labs
+objectClass: organizationalUnit
+ou: users
