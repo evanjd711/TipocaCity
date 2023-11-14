@@ -30,6 +30,7 @@ type Config struct {
 	MaxPodLimit                int
 	LogPath                    string
 	MainDistributedSwitch      string
+	TemplateFolder             string
 }
 
 /*

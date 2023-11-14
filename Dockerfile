@@ -12,12 +12,6 @@ RUN hostnamectl set-hostname ldap.kamino.labs --static
 # Install Packages
 RUN apt install -y slapd ldap-utils nodejs git wget
 
-# Pull Kamino-Frontend
-RUN git clone https://github.com/dbaseqp/kamino-frontend.git
-
-# Pull Cyclone
-RUN git clone https://github.com/dbaseqp/cyclone.git
-
 # Install PowerShell
 RUN wget -q https://packages.microsoft.com/config/debian/$VERSION_ID/packages-microsoft-prod.deb
 RUN dpkg -i packages-microsoft-prod.deb

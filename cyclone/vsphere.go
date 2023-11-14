@@ -46,7 +46,7 @@ func refreshSession() {
 }
 
 func vSphereLoadTakenPortGroups() error {
-	podNetworks, err := finder.NetworkList(mainCtx, "*_PodNetwork")
+	podNetworks, err := finder.NetworkList(mainCtx, "*_KaminoNetwork")
 	if err != nil {
 		return errors.Wrap(err, "Failed to list networks")
 	}
@@ -126,7 +126,7 @@ func vSphereGetPresetTemplates() ([]string, error) {
 func vSphereGetCustomTemplates() ([]gin.H, error) {
 	var templates []gin.H
 
-	templateFolder, err := finder.Folder(mainCtx, "Templates") // configuration
+	templateFolder, err := finder.Folder(mainCtx, tomlConf.TemplateFolder) // configuration
 
 	if err != nil {
 		return nil, errors.Wrap(err, "Failed to find templates folder")
