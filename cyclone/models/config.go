@@ -20,6 +20,7 @@ type Config struct {
 	PresetTemplateResourcePool string
 	StartingPortGroup          int
 	EndingPortGroup            int
+	PortGroupSuffix            string
 	Https                      bool
 	Port                       int
 	Cert                       string

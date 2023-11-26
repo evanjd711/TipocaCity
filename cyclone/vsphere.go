@@ -46,7 +46,7 @@ func refreshSession() {
 }
 
 func vSphereLoadTakenPortGroups() error {
-	podNetworks, err := finder.NetworkList(mainCtx, "*_KaminoNetwork")
+	podNetworks, err := finder.NetworkList(mainCtx, "*_"+tomlConf.PortGroupSuffix)
 	if err != nil {
 		return errors.Wrap(err, "Failed to list networks")
 	}
@@ -234,7 +234,7 @@ func vSphereTemplateClone(templateId string, username string) error {
 	for i := tomlConf.StartingPortGroup; i < tomlConf.EndingPortGroup; i++ {
 		if _, exists := availablePortGroups.Data[i]; !exists {
 			nextAvailablePortGroup = strconv.Itoa(i)
-			availablePortGroups.Data[i] = fmt.Sprintf("%s_PodNetwork", nextAvailablePortGroup)
+			availablePortGroups.Data[i] = fmt.Sprintf("%s_%s", nextAvailablePortGroup, tomlConf.PortGroupSuffix)
 			break
 		}
 	}
@@ -269,7 +269,7 @@ func vSphereCustomClone(podName string, vmsToClone []string, nat bool, username 
 	for i := tomlConf.StartingPortGroup; i < tomlConf.EndingPortGroup; i++ {
 		if _, exists := availablePortGroups.Data[i]; !exists {
 			nextAvailablePortGroup = strconv.Itoa(i)
-			availablePortGroups.Data[i] = fmt.Sprintf("%s_PodNetwork", nextAvailablePortGroup)
+			availablePortGroups.Data[i] = fmt.Sprintf("%s_%s", nextAvailablePortGroup, tomlConf.PortGroupSuffix)
 			break
 		}
 	}
