@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     login() {
-      axios.post('https://bruharmy.sdc.cpp:8080/login', 
+      axios.post('https://localhost:8080/login', 
           { 
             username: this.username, 
             password: this.password 

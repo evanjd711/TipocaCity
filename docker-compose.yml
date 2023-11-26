@@ -1,16 +1,18 @@
-version: '3.8'
+version: '3.3'
 
 services:
   nginx:
-    image: nginx:latest
+    image: node:latest
     ports:
       - "443:443"
     volumes:
-      - ./kamino:/usr/share/nginx/html:ro
+      - /opt/TipocaCity/:/opt/kamino
     networks:
       - webnet
     depends_on:
       - api
+    working_dir: /opt/kamino/kamino
+    command: sh -c 'npm i && npm set strict-ssl false && npm run -- dev'
 
   api:
     image: golang:latest
@@ -20,7 +22,7 @@ services:
       - webnet
     # Here you can mount the directory where your Go API code is located
     volumes:
-      - ./cyclone:/opt/cyclone
+      - /opt/TipocaCity/cyclone:/opt/cyclone
     working_dir: /opt/cyclone
     command: go run .
 

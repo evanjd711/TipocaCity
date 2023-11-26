@@ -65,7 +65,7 @@ export default {
       if (this.password != this.confirmPassword){
         return;
       }
-      axios.post('https://bruharmy.sdc.cpp:8080/register', 
+      axios.post('https://localhost:8080/register', 
           { 
             username: this.username, 
             password: this.password 

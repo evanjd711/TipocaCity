@@ -123,7 +123,7 @@ export default {
             }
         },
         loadOptions() {
-            axios.get('https://bruharmy.sdc.cpp:8080/view/templates/custom')
+            axios.get('https://localhost:8080/view/templates/custom')
                 .then((response) => {
                     var optionRemap = [];
                     response.data.templates.forEach((subfolder) => {
@@ -159,7 +159,7 @@ export default {
             this.$refs["form-modal"].hide()
             this.$refs["deploy-modal"].show()
             this.startLoading()
-            axios.post('https://bruharmy.sdc.cpp:8080/pod/clone/custom', {
+            axios.post('https://localhost:8080/pod/clone/custom', {
                 name: this.podName,
                 vmstoclone: this.vmsToCreate,
                 nat: this.nat,

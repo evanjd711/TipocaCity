@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     loadPods() {
-      axios.get('https://bruharmy.sdc.cpp:8080/view/pods')
+      axios.get('https://localhost:8080/view/pods')
         .then((response) => {
           console.log(response)
           this.pods = response.data.pods;
@@ -78,7 +78,7 @@ export default {
         });
     },
     deletePod(pod) {
-      axios.delete('https://bruharmy.sdc.cpp:8080/pod/delete/' + pod.Name)
+      axios.delete('https://localhost:8080/pod/delete/' + pod.Name)
         .then((response) => {
           this.loadPods();
         });

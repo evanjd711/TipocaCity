@@ -9,7 +9,7 @@ export default {
   },
   methods: {
     logout() {
-      axios.get('https://bruharmy.sdc.cpp:8080/logout'
+      axios.get('https://localhost:8080/logout'
         ).then((response) => {
           this.$router.push({ name: 'home' })
       }).catch((error) => {

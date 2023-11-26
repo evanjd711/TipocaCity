@@ -72,7 +72,7 @@ export default {
       return Math.random() * (max - min) + min;
     },
     loadOptions() {
-      axios.get('https://bruharmy.sdc.cpp:8080/view/templates/preset')
+      axios.get('https://localhost:8080/view/templates/preset')
         .then((response) => {
           this.options = response.data.templates;
         })
@@ -92,7 +92,7 @@ export default {
       this.modalText = "Your pod is deploying. Hold tight. This should only take a few minutes...";
       this.modalShow = true
       this.startLoading()
-      axios.post('https://bruharmy.sdc.cpp:8080/pod/clone/template', {
+      axios.post('https://localhost:8080/pod/clone/template', {
         template: this.$refs.templateSelect.selected,
       })
         .then((response) => {
