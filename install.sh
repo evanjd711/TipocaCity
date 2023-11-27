@@ -162,3 +162,6 @@ sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/page
 sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/*.vue
 sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/router/*.js
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
+
+cd /opt/TipocaCity
+docker-compose up
