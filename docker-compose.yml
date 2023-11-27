@@ -24,7 +24,16 @@ services:
     volumes:
       - /opt/TipocaCity/cyclone:/opt/cyclone
     working_dir: /opt/cyclone
-    command: go run .
+    command: 
+      - /bin/bash
+      - -c 
+      - | 
+        dpkg -i ./powershell-deb/packages-microsoft-prod.deb
+        apt update 
+        apt install powershell -y
+        pwsh -c "Install-Module -Name BruhArmy -Force"
+        pwsh -c "Install-Module -Name VMware.PowerCLI -Force"
+        go run .
 
   ldap:
     image: osixia/openldap:latest
