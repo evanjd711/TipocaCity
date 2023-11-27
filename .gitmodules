@@ -1,3 +1,6 @@
 [submodule "cyclone"]
 	path = cyclone
 	url = https://github.com/dbaseqp/cyclone
+[submodule "kamino-frontend"]
+	path = kamino-frontend
+	url = https://github.com/dbaseqp/kamino-frontend
