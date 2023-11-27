@@ -6,7 +6,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /opt/TipocaCity/kamino/:/opt/kamino
+      - /opt/TipocaCity/kamino-frontend/:/opt/kamino
     networks:
       - webnet
     depends_on:

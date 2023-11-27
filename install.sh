@@ -53,7 +53,7 @@ fi
 
 # vCenter API Account
 echo -ne "${CYAN}vCenter API Account: ${NC}"
-read vcenterusername
+read -r vcenterusername
 if [ -z "$vcenterusername" ]; then
     echo -e "${RED}[ERROR] - vCenter Username is required.${NC}"
     exit 1
@@ -157,11 +157,15 @@ cp *.pem ./kamino/tls/
 echo -e "${CYAN}Configurating...${NC}"
 echo -e "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
 read fqdn
-sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/Dashboard/*.vue
-sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/UserProfile/*.vue
-sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/*.vue
-sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/router/*.js
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/Dashboard/*.vue
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/UserProfile/*.vue
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/*.vue
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/router/*.js
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
+
+# Setup Cyclone
+mkdir ./cyclone/lib
+mkdir ./cyclone/lib/creds
 
 cd /opt/TipocaCity
 docker-compose up
