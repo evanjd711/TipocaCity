@@ -157,10 +157,10 @@ cp *.pem ./kamino/tls/
 echo -e "${CYAN}Configurating...${NC}"
 echo -e "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
 read fqdn
-sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/Dashboard/*.vue
-sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/UserProfile/*.vue
-sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/*.vue
-sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/router/*.js
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/Dashboard/*.vue
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/UserProfile/*.vue
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/*.vue
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/router/*.js
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
 
 # Setup Cyclone
