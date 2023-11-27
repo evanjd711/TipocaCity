@@ -148,10 +148,10 @@ EOF
 
 # Create SSL Certs
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/C=US/ST=CA/L=Pomona/O=Kamino/OU=Kamino/CN=tipoca.kamino.labs"
-mkdir ./kamino/tls
 mkdir ./cyclone/tls
 cp *.pem ./cyclone/tls/
-cp *.pem ./kamino/tls/
+mkdir ./kamino-frontend/tls
+cp *.pem ./kamino-frontend/tls/
 
 # Setting Configs
 echo -e "${CYAN}Configurating...${NC}"
