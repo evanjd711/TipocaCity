@@ -59,6 +59,8 @@ if [ -z "$vcenterusername" ]; then
     exit 1
 fi
 
+export vcenterusername=$vcenterusername
+
 # vCenter API Password
 echo -ne "${CYAN}vCenter API Password: ${NC}"
 read -s vcenterpassword
@@ -67,6 +69,8 @@ if [ -z "$vcenterpassword" ]; then
     echo -e "${RED}[ERROR] - vCenter Password is required.${NC}"
     exit 1
 fi
+
+export vcenterpassword=$vcenterpassword
 
 # vCenter Datacenter
 echo -ne "${CYAN}vCenter Datacenter: ${NC}"
@@ -157,15 +161,18 @@ cp *.pem ./kamino-frontend/tls/
 echo -e "${CYAN}Configurating...${NC}"
 echo -e "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
 read fqdn
+
+#Configure Kamino Frontend
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/Dashboard/*.vue
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/UserProfile/*.vue
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/*.vue
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/router/*.js
-sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
 
 # Setup Cyclone
 mkdir ./cyclone/lib
 mkdir ./cyclone/lib/creds
+sed -i "s/{vcenterfqdn}/$vcenterurl/g" /opt/TipocaCity/cyclone/pwsh/*.ps1
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
 
 cd /opt/TipocaCity
 docker-compose up

@@ -33,13 +33,15 @@ services:
         apt install powershell -y
         pwsh -c "Install-Module -Name BruhArmy -Force"
         pwsh -c "Install-Module -Name VMware.PowerCLI -Force"
-        pwsh -c "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:\$false"
-        pwsh -c "Set-PowerCLIConfiguration -ParticipateInCEIP:\$false -Confirm:\$false"
-        pwsh -c '$$cred = Get-Content ./config.conf | Select-String vCenterUsername -Context 0,1; $$password = ConvertTo-SecureString -String $$cred.toString().split(' ')[8].Substring(1, $$cred.toString().split(' ')[8].length - 2) -AsPlainText -Force; [PSCredential]::New($$cred.toString().split(' ')[3].trim(), ($$password)) | Export-Clixml -Path ./lib/creds/vsphere_cred.xml'
+        pwsh -c "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Scope AllUsers -Confirm:0"
+        pwsh -c "Set-PowerCLIConfiguration -ParticipateInCEIP:0 -Scope AllUsers -Confirm:0"
+        pwsh -c "[PSCredential]::New('$vcenterusername', (ConvertTo-SecureString -AsPlainText '$vcenterpassword' -Force)) | Export-Clixml -Path ./lib/creds/vsphere_cred.xml"
         go run .
 
   ldap:
     image: osixia/openldap:latest
+    ports:
+      - "389:389"
     environment:
       LDAP_ORGANISATION: "Kamino Labs"
       LDAP_DOMAIN: "kamino.labs"
