@@ -113,9 +113,14 @@ if [ -z "$maindistributedswitch" ]; then
 fi
 
 # Kamino Port Groups Suffix
-echo -ne "${CYAN}Kamino Port Groups Suffix ${NC}(Default: KaminoNetwork):"
+echo -ne "${CYAN}Kamino Port Groups Suffix ${NC}(Default: KaminoNetwork): "
 read portgroupsuffix
 portgroupsuffix=${portgroupsuffix:-"KaminoNetwork"}
+
+# VM Template Folder
+echo -ne "${CYAN}VM Template Folder ${NC}(Default: Templates): "
+read templatefolder
+templatefolder=${templatefolder:-"Templates"}
 
 # Create config files
 echo "Creating config files..."
@@ -138,6 +143,7 @@ maxpodlimit = $maxpodlimit
 logPath = ".//Logs//kamino.log"
 maindistributedswitch = "$maindistributedswitch"
 portgroupsuffix = "$portgroupsuffix"
+templatefolder = "$templatefolder"
 EOF
 
 # Create SSL Certs
