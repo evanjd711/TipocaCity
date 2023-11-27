@@ -19,7 +19,7 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
 apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-git clone https://github.com/evanjd711/TipocaCity /opt/TipocaCity
+git clone --recursive https://github.com/evanjd711/TipocaCity /opt/TipocaCity
 cd /opt/TipocaCity
  
 # Starting Port Group
