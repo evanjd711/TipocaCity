@@ -33,6 +33,7 @@ services:
         apt install powershell -y
         pwsh -c "Install-Module -Name BruhArmy -Force"
         pwsh -c "Install-Module -Name VMware.PowerCLI -Force"
+        pwsh -c "$cred = Get-Content ./config.conf | Select-String vCenterUsername -Context 0,1; $password = ConvertTo-SecureString -String $cred.toString().split(' ')[7] -AsPlainText -Force; $CredObject = New-Object -TypeName System.Management.Automation.PSCredential ($cred.toString().split(' ')[3].trim(), $password)"
         go run .
 
   ldap:
