@@ -148,11 +148,11 @@ cp *.pem ./cyclone/tls/
 cp *.pem ./kamino/tls/
 
 # Setting Configs
-echo -e "${CYAN}Configurating...{$NC}"
+echo -e "${CYAN}Configurating...${NC}"
 echo -e "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
 read fqdn
 sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/Dashboard/*.vue
 sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/UserProfile/*.vue
 sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/pages/*.vue
 sed -i "s/https:\/\/localhost/https:\/\/$fqdn/g" /opt/TipocaCity/kamino/src/router/*.js
-sed -i "s/{FQDN}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
+sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go

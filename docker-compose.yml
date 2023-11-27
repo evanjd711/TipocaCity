@@ -1,18 +1,18 @@
 version: '3.3'
 
 services:
-  nginx:
+  node:
     image: node:latest
     ports:
       - "443:443"
     volumes:
-      - /opt/TipocaCity/:/opt/kamino
+      - /opt/TipocaCity/kamino/:/opt/kamino
     networks:
       - webnet
     depends_on:
       - api
-    working_dir: /opt/kamino/kamino
-    command: sh -c 'npm i && npm set strict-ssl false && npm run -- dev'
+    working_dir: /opt/kamino
+    command: sh -c 'npm i && npm run -- dev'
 
   api:
     image: golang:latest
