@@ -90,6 +90,7 @@ if [ -z "$cluster" ]; then
     exit 1
 fi
 
+export cluster=$cluster
 
 # Parent Resource Pool
 echo -ne "${CYAN}Parent Resource Pool ${NC}(Default: Kamino): "
