@@ -7,14 +7,6 @@ version: 1
 # requesting: ALL
 #
 
-# kamino.labs
-dn: dc=kamino,dc=labs
-objectClass: top
-objectClass: dcObject
-objectClass: organization
-o: kamino.labs
-dc: kamino
-
 # groups, kamino.labs
 dn: ou=groups,dc=kamino,dc=labs
 objectClass: organizationalUnit

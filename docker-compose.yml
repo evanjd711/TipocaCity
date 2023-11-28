@@ -3,6 +3,7 @@ version: '3.3'
 services:
   node:
     image: node:latest
+    restart: always
     ports:
       - "443:443"
     volumes:
@@ -13,9 +14,11 @@ services:
       - api
     working_dir: /opt/kamino
     command: sh -c 'npm i && npm run -- dev'
+    
 
   api:
     image: golang:latest
+    restart: always
     ports:
       - "8080:8080"
     networks:
@@ -28,25 +31,37 @@ services:
       - /bin/bash
       - -c 
       - | 
+        export vcenterpassword='$vcenterpassword'
+        export vcenterusername='$vcenterusername'
+        export vcenterurl='$vcenterurl'
+        export parentresourcepool='$parentresourcepool'
+        export presettemplateresourcepool='$presettemplateresourcepool'
+        export targetresourcepool='$targetresourcepool'
+        export cluster='$cluster'
         dpkg -i ./powershell-deb/packages-microsoft-prod.deb
         apt update 
         apt install powershell -y
-        pwsh -c "Install-Module -Name VMware.PowerCLI -Force"
-        cp -r ./pwsh/Kamino/ /root/.local/share/powershell/Modules/
-        pwsh -c "Import-Module Kamino"
-        pwsh -c "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Scope AllUsers -Confirm:0"
-        pwsh -c "Set-PowerCLIConfiguration -ParticipateInCEIP:0 -Scope AllUsers -Confirm:0"
-        pwsh -c "[PSCredential]::New('$vcenterusername', (ConvertTo-SecureString -AsPlainText '$vcenterpassword' -Force)) | Export-Clixml -Path ./lib/creds/vsphere_cred.xml"
+        pwsh -ExecutionPolicy Unrestricted -f ./pwsh/install/install.ps1
+        pwsh -ExecutionPolicy Unrestricted -f ./pwsh/install/vsphere-prep.ps1
+        cp -r ./pwsh/Kamino /root/.local/share/powershell/Modules/
+        unset vcenterpassword
+        unset vcenterusername
+        unset vcenterurl
+        unset parentresourcepool
+        unset presettemplateresourcepool
+        unset targetresourcepool
+        unset cluster
         go run .
 
   ldap:
     image: osixia/openldap:latest
+    restart: always
     ports:
       - "389:389"
     environment:
       LDAP_ORGANISATION: "Kamino Labs"
       LDAP_DOMAIN: "kamino.labs"
-      LDAP_ADMIN_PASSWORD: "changeme"
+      LDAP_ADMIN_PASSWORD: "$ldapadminpassword"
     networks:
       - webnet
     # LDAP needs a volume to persist data

@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 echo -e "Welcome to the Tipoca City setup!"  
 echo -e "Visit the README for help using this script: ${CYAN}https://github.com/evanjd711/TipocaCity/blob/main/README.md${NC}\n"
 sudo apt update
-sudo apt install git curl ca-certificates gnupg
+sudo apt install git curl ca-certificates gnupg ldap-utils
 sudo apt-get update
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -51,6 +51,8 @@ if [ -z "$vcenterurl" ]; then
     exit 1
 fi
 
+export vcenterurl=$vcenterurl
+
 # vCenter API Account
 echo -ne "${CYAN}vCenter API Account: ${NC}"
 read -r vcenterusername
@@ -80,20 +82,35 @@ if [ -z "$datacenter" ]; then
     exit 1
 fi
 
+# vCenter Cluster or host
+echo -ne "${CYAN}vCenter Cluster or Host ${NC}(for Resource Pools): "
+read cluster
+if [ -z "$cluster" ]; then
+    echo -e "${RED}[ERROR] - vCenter Cluster or Host is required.${NC}"
+    exit 1
+fi
+
+
 # Parent Resource Pool
 echo -ne "${CYAN}Parent Resource Pool ${NC}(Default: Kamino): "
 read parentresourcepool
 parentresourcepool=${parentresourcepool:-"Kamino"}
+
+export parentresourcepool=$parentresourcepool
 
 # Template Resource Pool
 echo -ne "${CYAN}Template Resource Pool ${NC}(Default: Kamino-Templates): "
 read presettemplateresourcepool
 presettemplateresourcepool=${presettemplateresourcepool:-"Kamino-Templates"}
 
+export presettemplateresourcepool=$presettemplateresourcepool
+
 # Destination Resource Pool for Clones
 echo -ne "${CYAN}Destination Resource Pool for Clones ${NC}(Default: Kamino-Clones): "
 read targetresourcepool
 targetresourcepool=${targetresourcepool:-"Kamino-Clones"}
+
+export targetresourcepool=$targetresourcepool
 
 # Inventory Location for Kamino VMs
 echo -ne "${CYAN}Inventory Location for Kamino VMs ${NC}(Default: Kamino): "
@@ -117,7 +134,7 @@ if [ -z "$wanportgroup" ]; then
 fi
 
 # WAN Network
-echo -ne "${CYAN}WAN Network's First Two Octets (e.g. 172.16): ${NC}"
+echo -ne "${CYAN}WAN Network's First Two Octets ${NC}(e.g. 172.16): "
 read firsttwooctets
 if [ -z "$firsttwooctets" ]; then
     echo -e "${RED}[ERROR] - WAN Network's First Two Octets are required.${NC}"
@@ -171,17 +188,27 @@ portgroupsuffix = "$portgroupsuffix"
 templatefolder = "$templatefolder"
 EOF
 
+# Setting Configs
+echo -e "${CYAN}Configurating...${NC}"
+echo -e "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
+read fqdn
+
+# LDAP Password
+echo -e "${CYAN}LDAP Server Admin Password: ${NC}"
+read -s ldapadminpassword
+if [ -z "$ldapadminpassword" ]; then
+    echo -e "${RED}[ERROR] - LDAP Server Admin Password is required.${NC}"
+    exit 1
+fi
+
+export ldapadminpassword=$ldapadminpassword
+
 # Create SSL Certs
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/C=US/ST=CA/L=Pomona/O=Kamino/OU=Kamino/CN=tipoca.kamino.labs"
 mkdir ./cyclone/tls
 cp *.pem ./cyclone/tls/
 mkdir ./kamino-frontend/tls
 cp *.pem ./kamino-frontend/tls/
-
-# Setting Configs
-echo -e "${CYAN}Configurating...${NC}"
-echo -e "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
-read fqdn
 
 #Configure Kamino Frontend
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/Dashboard/*.vue
@@ -204,4 +231,6 @@ sed -i "s/{targetresourcepool}/$targetresourcepool/g" /opt/TipocaCity/cyclone/pw
 sed -i "s/{maindistributedswitch}/$maindistributedswitch/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
 
 cd /opt/TipocaCity
-docker-compose up
+docker-compose up -d
+
+
