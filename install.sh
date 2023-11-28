@@ -242,16 +242,16 @@ cd /opt/TipocaCity
 docker-compose up -d
 
 if [ $https == "true" ]; then
-    url="https://$fqdn/ping"
+    url="https://$fqdn:8080/ping"
 else
-    url="http://$fqdn/ping"
+    url="http://$fqdn:8080/ping"
 fi 
 
 while true; do
-    response=$(curl -o /dev/null -s -w "%{http_code}\n" "$url")
+    response=$(curl -o /dev/null -s -w "%{http_code}\n" "$url" -k)
 
     if [ "$response" -eq 200 ]; then
-        echo -e "${CYAN}Kamino is now running!${NC}"
+        echo -e "${CYAN}Kamino is now running.${NC}"
         break
     else
         echo -e "${RED}Waiting for Kamino to start...${NC}"
