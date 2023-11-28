@@ -251,8 +251,10 @@ while true; do
     response=$(curl -o /dev/null -s -w "%{http_code}\n" "$url")
 
     if [ "$response" -eq 200 ]; then
+        echo -e "${CYAN}Kamino is now running!${NC}"
         break
     else
+        echo -e "${RED}Waiting for Kamino to start...${NC}"
         sleep 5
     fi
 done
