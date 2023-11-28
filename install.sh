@@ -1,8 +1,12 @@
 #!/bin/bash
-
 CYAN='\033[0;36m' # Cyan
 RED='\033[0;31m' # Red
 NC='\033[0m' # No Color
+
+if [ "$(id -u)" != "0" ]; then
+   echo -e "${RED}This script must be run as root.${NC}" 1>&2
+   exit 1
+fi
 
 # Initialize
 echo -e "Welcome to the Tipoca City setup!"  
@@ -177,6 +181,7 @@ port = 8080
 vCenterURL = "$vcenterurl"
 vCenterUsername = "$vcenterusername"
 vCenterPassword = "$vcenterpassword"
+ldapadminpassword = "$ldapadminpassword"
 datacenter = "$datacenter"
 presettemplateresourcepool = "$presettemplateresourcepool"
 targetresourcepool  = "$targetresourcepool"
@@ -234,4 +239,26 @@ sed -i "s/{maindistributedswitch}/$maindistributedswitch/g" /opt/TipocaCity/cycl
 cd /opt/TipocaCity
 docker-compose up -d
 
+if [ $https == "true" ]; then
+    url="https://$fqdn/ping"
+else
+    url="http://$fqdn/ping"
+fi 
 
+while true; do
+    response=$(curl -o /dev/null -s -w "%{http_code}\n" "$url")
+
+    if [ "$response" -eq 200 ]; then
+        break
+    else
+        sleep 5
+    fi
+done
+
+# Cleanup
+rm /opt/TipocaCity/*.pem
+rm -rf /opt/TipocaCity/cyclone/pwsh/install
+rm /opt/install.sh
+rm /opt/TipocaCity/install.sh
+chmod 600 /opt/TipocaCity/cyclone/lib/creds/*
+chmod 600 /opt/TipocaCity/cyclone/config.conf
