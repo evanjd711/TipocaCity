@@ -171,6 +171,16 @@ echo -ne "${CYAN}VM Template Folder ${NC}(Default: Templates): "
 read templatefolder
 templatefolder=${templatefolder:-"Templates"}
 
+# LDAP Password
+echo -e "${CYAN}LDAP Server Admin Password: ${NC}"
+read -s ldapadminpassword
+if [ -z "$ldapadminpassword" ]; then
+    echo -e "${RED}[ERROR] - LDAP Server Admin Password is required.${NC}"
+    exit 1
+fi
+
+export ldapadminpassword=$ldapadminpassword
+
 # Create config files
 echo "Creating config files..."
 cat << EOF > cyclone/config.conf
@@ -200,16 +210,6 @@ EOF
 echo -e "${CYAN}Configurating...${NC}"
 echo -e "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
 read fqdn
-
-# LDAP Password
-echo -e "${CYAN}LDAP Server Admin Password: ${NC}"
-read -s ldapadminpassword
-if [ -z "$ldapadminpassword" ]; then
-    echo -e "${RED}[ERROR] - LDAP Server Admin Password is required.${NC}"
-    exit 1
-fi
-
-export ldapadminpassword=$ldapadminpassword
 
 # Create SSL Certs
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/C=US/ST=CA/L=Pomona/O=Kamino/OU=Kamino/CN=tipoca.kamino.labs"
