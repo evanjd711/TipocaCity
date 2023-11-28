@@ -31,3 +31,9 @@ ou: kamino
 dn: ou=users,dc=kamino,dc=labs
 objectClass: organizationalUnit
 ou: users
+
+# Kamino Users Group
+dn: cn=Kamino Users,ou=groups,dc=kamino,dc=labs
+objectClass: top
+objectClass: groupOfUniqueNames
+cn: Kamino Users
