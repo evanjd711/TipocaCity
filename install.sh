@@ -95,11 +95,32 @@ echo -ne "${CYAN}Destination Resource Pool for Clones ${NC}(Default: Kamino-Clon
 read targetresourcepool
 targetresourcepool=${targetresourcepool:-"Kamino-Clones"}
 
+# Inventory Location for Kamino VMs
+echo -ne "${CYAN}Inventory Location for Kamino VMs ${NC}(Default: Kamino): "
+read inventorylocation
+inventorylocation=${inventorylocation:-"Kamino"}
+
+# Datastore for Kamino VMs
+echo -ne "${CYAN}Datastore for Kamino VMs ${NC}: "
+read datastore
+if [ -z "$datastore" ]; then
+    echo -e "${RED}[ERROR] - Datastore is required.${NC}"
+    exit 1
+fi
+
 # WAN Port Group
 echo -ne "${CYAN}WAN Port Group: ${NC}"
 read wanportgroup
 if [ -z "$wanportgroup" ]; then
     echo -e "${RED}[ERROR] - WAN Port Group is required.${NC}"
+    exit 1
+fi
+
+# WAN Network
+echo -ne "${CYAN}WAN Network's First Two Octets (e.g. 172.16): ${NC}"
+read firsttwooctets
+if [ -z "$firsttwooctets" ]; then
+    echo -e "${RED}[ERROR] - WAN Network's First Two Octets are required.${NC}"
     exit 1
 fi
 
@@ -173,6 +194,14 @@ mkdir ./cyclone/lib
 mkdir ./cyclone/lib/creds
 sed -i "s/{vcenterfqdn}/$vcenterurl/g" /opt/TipocaCity/cyclone/pwsh/*.ps1
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
+
+# Setup Kamino PowerShell Module
+sed -i "s/{firsttwooctets}/$firsttwooctets/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
+sed -i "s/{portgroupsuffix}/$portgroupsuffix/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
+sed -i "s/{inventorylocation}/$inventorylocation/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
+sed -i "s/{datastore}/$datastore/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
+sed -i "s/{targetresourcepool}/$targetresourcepool/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
+sed -i "s/{maindistributedswitch}/$maindistributedswitch/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
 
 cd /opt/TipocaCity
 docker-compose up

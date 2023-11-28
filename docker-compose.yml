@@ -31,7 +31,7 @@ services:
         dpkg -i ./powershell-deb/packages-microsoft-prod.deb
         apt update 
         apt install powershell -y
-        pwsh -c "Install-Module -Name BruhArmy -Force"
+        cp -r ./pwsh/Kamino/ /root/.local/share/powershell/Modules/
         pwsh -c "Install-Module -Name VMware.PowerCLI -Force"
         pwsh -c "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Scope AllUsers -Confirm:0"
         pwsh -c "Set-PowerCLIConfiguration -ParticipateInCEIP:0 -Scope AllUsers -Confirm:0"
