@@ -9,7 +9,7 @@ services:
     volumes:
       - /opt/TipocaCity/kamino-frontend/:/opt/kamino
     networks:
-      - webnet
+      - tipoca
     depends_on:
       - api
     working_dir: /opt/kamino
@@ -22,7 +22,7 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - webnet
+      - tipoca
     # Here you can mount the directory where your Go API code is located
     volumes:
       - /opt/TipocaCity/cyclone:/opt/cyclone
@@ -38,9 +38,10 @@ services:
         export presettemplateresourcepool='$presettemplateresourcepool'
         export targetresourcepool='$targetresourcepool'
         export cluster='$cluster'
+        export inventorylocation='$inventorylocation'
         dpkg -i ./powershell-deb/packages-microsoft-prod.deb
         apt update 
-        apt install powershell -y
+        apt install powershell ldap-utils -y
         pwsh -ExecutionPolicy Unrestricted -f ./pwsh/install/install.ps1
         pwsh -ExecutionPolicy Unrestricted -f ./pwsh/install/vsphere-prep.ps1
         cp -r ./pwsh/Kamino /root/.local/share/powershell/Modules/
@@ -51,6 +52,7 @@ services:
         unset presettemplateresourcepool
         unset targetresourcepool
         unset cluster
+        unset inventorylocation
         go run .
 
   ldap:
@@ -63,14 +65,14 @@ services:
       LDAP_DOMAIN: "kamino.labs"
       LDAP_ADMIN_PASSWORD: "$ldapadminpassword"
     networks:
-      - webnet
+      - tipoca
     # LDAP needs a volume to persist data
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_slapd:/etc/ldap/slapd.d
 
 networks:
-  webnet:
+  tipoca:
 
 volumes:
   ldap_data:

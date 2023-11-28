@@ -122,6 +122,8 @@ echo -ne "${CYAN}Inventory Location for Kamino VMs ${NC}(Default: Kamino): "
 read inventorylocation
 inventorylocation=${inventorylocation:-"Kamino"}
 
+export inventorylocation=$inventorylocation
+
 # Datastore for Kamino VMs
 echo -ne "${CYAN}Datastore for Kamino VMs ${NC}: "
 read datastore
