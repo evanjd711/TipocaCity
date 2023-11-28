@@ -31,8 +31,9 @@ services:
         dpkg -i ./powershell-deb/packages-microsoft-prod.deb
         apt update 
         apt install powershell -y
-        cp -r ./pwsh/Kamino/ /root/.local/share/powershell/Modules/
         pwsh -c "Install-Module -Name VMware.PowerCLI -Force"
+        cp -r ./pwsh/Kamino/ /root/.local/share/powershell/Modules/
+        pwsh -c "Import-Module Kamino"
         pwsh -c "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Scope AllUsers -Confirm:0"
         pwsh -c "Set-PowerCLIConfiguration -ParticipateInCEIP:0 -Scope AllUsers -Confirm:0"
         pwsh -c "[PSCredential]::New('$vcenterusername', (ConvertTo-SecureString -AsPlainText '$vcenterpassword' -Force)) | Export-Clixml -Path ./lib/creds/vsphere_cred.xml"
