@@ -30,7 +30,7 @@ cd /opt/TipocaCity
 echo -ne "${CYAN}Enter Starting Port Group ${NC}(1000-4096, Default: 1801): "
 read startingportgroup
 startingportgroup=${startingportgroup:-1801}
-echo 
+
 # Ending Port Group
 echo -ne "${CYAN}Enter Ending Port Group ${NC}(1000-4096, Default: 4000): "
 read endingportgroup
@@ -172,7 +172,7 @@ read templatefolder
 templatefolder=${templatefolder:-"Templates"}
 
 # LDAP Password
-echo -e "${CYAN}LDAP Server Admin Password: ${NC}"
+echo -ne "${CYAN}LDAP Server Admin Password: ${NC}"
 read -s ldapadminpassword
 if [ -z "$ldapadminpassword" ]; then
     echo -e "${RED}[ERROR] - LDAP Server Admin Password is required.${NC}"
