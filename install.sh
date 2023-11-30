@@ -200,7 +200,7 @@ targetresourcepool  = "$targetresourcepool"
 domain = "kamino.labs"
 wanportgroup = "$wanportgroup"
 maxpodlimit = $maxpodlimit
-logPath = ".//Logs//kamino.log"
+logPath = "//var//log//tipoca//"
 maindistributedswitch = "$maindistributedswitch"
 portgroupsuffix = "$portgroupsuffix"
 templatefolder = "$templatefolder"
@@ -225,10 +225,12 @@ sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/*.
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/router/*.js
 
 # Setup Cyclone
+mkdir /var/log/tipoca
 mkdir ./cyclone/lib
 mkdir ./cyclone/lib/creds
 sed -i "s/{vcenterfqdn}/$vcenterurl/g" /opt/TipocaCity/cyclone/pwsh/*.ps1
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
+sed -i "s/{portgroupsuffix}/$portgroupsuffix/g" /opt/TipocaCity/cyclone/vsphere.go
 
 # Setup Kamino PowerShell Module
 sed -i "s/{firsttwooctets}/$firsttwooctets/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
@@ -262,7 +264,6 @@ done
 # Cleanup
 rm /opt/TipocaCity/*.pem
 rm -rf /opt/TipocaCity/cyclone/pwsh/install
-rm /opt/install.sh
 rm /opt/TipocaCity/install.sh
 chmod 600 /opt/TipocaCity/cyclone/lib/creds/*
 chmod 600 /opt/TipocaCity/cyclone/config.conf
