@@ -54,7 +54,6 @@ if [ -z "$vcenterurl" ]; then
     echo -e "${RED}[ERROR] - vCenter FQDN is required.${NC}"
     exit 1
 fi
-
 export vcenterurl=$vcenterurl
 
 # vCenter API Account
@@ -64,7 +63,6 @@ if [ -z "$vcenterusername" ]; then
     echo -e "${RED}[ERROR] - vCenter Username is required.${NC}"
     exit 1
 fi
-
 export vcenterusername=$vcenterusername
 
 # vCenter API Password
@@ -75,7 +73,6 @@ if [ -z "$vcenterpassword" ]; then
     echo -e "${RED}[ERROR] - vCenter Password is required.${NC}"
     exit 1
 fi
-
 export vcenterpassword=$vcenterpassword
 
 # vCenter Datacenter
@@ -93,35 +90,30 @@ if [ -z "$cluster" ]; then
     echo -e "${RED}[ERROR] - vCenter Cluster or Host is required.${NC}"
     exit 1
 fi
-
 export cluster=$cluster
 
 # Parent Resource Pool
 echo -ne "${CYAN}Parent Resource Pool ${NC}(Default: Kamino): "
 read parentresourcepool
 parentresourcepool=${parentresourcepool:-"Kamino"}
-
 export parentresourcepool=$parentresourcepool
 
 # Template Resource Pool
 echo -ne "${CYAN}Template Resource Pool ${NC}(Default: Kamino-Templates): "
 read presettemplateresourcepool
 presettemplateresourcepool=${presettemplateresourcepool:-"Kamino-Templates"}
-
 export presettemplateresourcepool=$presettemplateresourcepool
 
 # Destination Resource Pool for Clones
-echo -ne "${CYAN}Destination Resource Pool for Clones ${NC}(Default: Kamino-Clones): "
+echo -ne "${CYAN}Clone Resource Pool for Clones ${NC}(Default: Kamino-Clones): "
 read targetresourcepool
 targetresourcepool=${targetresourcepool:-"Kamino-Clones"}
-
 export targetresourcepool=$targetresourcepool
 
 # Inventory Location for Kamino VMs
 echo -ne "${CYAN}Inventory Location for Kamino VMs ${NC}(Default: Kamino): "
 read inventorylocation
 inventorylocation=${inventorylocation:-"Kamino"}
-
 export inventorylocation=$inventorylocation
 
 # Datastore for Kamino VMs
@@ -141,7 +133,7 @@ if [ -z "$wanportgroup" ]; then
 fi
 
 # WAN Network
-echo -ne "${CYAN}WAN Network's First Two Octets ${NC}(e.g. 172.16): "
+echo -ne "${CYAN}WAN Network ID ${NC}(e.g. 172.16): "
 read firsttwooctets
 if [ -z "$firsttwooctets" ]; then
     echo -e "${RED}[ERROR] - WAN Network's First Two Octets are required.${NC}"
@@ -178,8 +170,18 @@ if [ -z "$ldapadminpassword" ]; then
     echo -e "${RED}[ERROR] - LDAP Server Admin Password is required.${NC}"
     exit 1
 fi
-
 export ldapadminpassword=$ldapadminpassword
+
+echo -ne "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
+read fqdn
+
+echo -ne "${CYAN}Password for pfSense NAT Template: ${NC}(Default: pfsense): "
+read -s pfsensepassword
+pfsensepassword=${pfsensepassword:-"pfsense"}
+export pfsensepassword=$pfsensepassword
+
+# Setting Configs
+echo -e "${CYAN}Configurating...${NC}"
 
 # Create config files
 echo "Creating config files..."
@@ -206,11 +208,6 @@ portgroupsuffix = "$portgroupsuffix"
 templatefolder = "$templatefolder"
 EOF
 
-# Setting Configs
-echo -e "${CYAN}Configurating...${NC}"
-echo -e "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
-read fqdn
-
 # Create SSL Certs
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes -subj "/C=US/ST=CA/L=Pomona/O=Kamino/OU=Kamino/CN=tipoca.kamino.labs"
 mkdir ./cyclone/tls
@@ -229,8 +226,10 @@ mkdir /var/log/tipoca
 mkdir ./cyclone/lib
 mkdir ./cyclone/lib/creds
 sed -i "s/{vcenterfqdn}/$vcenterurl/g" /opt/TipocaCity/cyclone/pwsh/*.ps1
+
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/cyclone/main.go
 sed -i "s/{portgroupsuffix}/$portgroupsuffix/g" /opt/TipocaCity/cyclone/vsphere.go
+sed -i "s/{templatefolder}/$templatefolder/g" /opt/TipocaCity/cyclone/vsphere.go
 
 # Setup Kamino PowerShell Module
 sed -i "s/{firsttwooctets}/$firsttwooctets/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1

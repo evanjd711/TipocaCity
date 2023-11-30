@@ -39,6 +39,7 @@ services:
         export targetresourcepool='$targetresourcepool'
         export cluster='$cluster'
         export inventorylocation='$inventorylocation'
+        export pfsensepassword='$pfsensepassword'
         dpkg -i ./powershell-deb/packages-microsoft-prod.deb
         apt update 
         apt install powershell ldap-utils -y
@@ -53,6 +54,7 @@ services:
         unset targetresourcepool
         unset cluster
         unset inventorylocation
+        unset pfsensepassword
         go run .
 
   ldap:
