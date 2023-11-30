@@ -189,8 +189,8 @@ cat << EOF > cyclone/config.conf
 startingportgroup = $startingportgroup
 endingportgroup = $endingportgroup
 https = $https
-key = ".//tls//key.pem"
-cert = ".//tls//cert.pem"
+key = "./tls/key.pem"
+cert = "./tls/cert.pem"
 port = 8080
 vCenterURL = "$vcenterurl"
 vCenterUsername = "$vcenterusername"
@@ -202,7 +202,7 @@ targetresourcepool  = "$targetresourcepool"
 domain = "kamino.labs"
 wanportgroup = "$wanportgroup"
 maxpodlimit = $maxpodlimit
-logPath = "//var//log//tipoca//cyclone.log"
+logPath = "/opt/TipocaCity/cyclone/logs/cyclone.log"
 maindistributedswitch = "$maindistributedswitch"
 portgroupsuffix = "$portgroupsuffix"
 templatefolder = "$templatefolder"
@@ -222,7 +222,7 @@ sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/pages/*.
 sed -i "s/{fqdn}/https:\/\/$fqdn/g" /opt/TipocaCity/kamino-frontend/src/router/*.js
 
 # Setup Cyclone
-mkdir /var/log/tipoca
+mkdir /opt/TipocaCity/cyclone/logs
 mkdir ./cyclone/lib
 mkdir ./cyclone/lib/creds
 sed -i "s/{vcenterfqdn}/$vcenterurl/g" /opt/TipocaCity/cyclone/pwsh/*.ps1
