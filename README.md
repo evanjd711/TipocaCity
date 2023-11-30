@@ -17,10 +17,10 @@ bash <(curl -sfL https://raw.githubusercontent.com/evanjd711/TipocaCity/main/ins
 ```
 3. Follow the prompts to configure your environment.
 4. Add Kamino as an Identity Source to vCenter.
-	a. Navigate to Administration > Single Sign-On > Configuration.
-	b. Click the Identity Sources tab.
-	c. Click Add and choose Open LDAP for Identity Source Type.
-	d. Set the following parameters:
+	- Navigate to Administration > Single Sign-On > Configuration.
+	- Click the Identity Sources tab.
+	- Click Add and choose Open LDAP for Identity Source Type.
+	- Set the following parameters:
 		- Identity source name: Kamino
 		- Base distinguished name for users: ou=users,dc=kamino,dc=labs
 		- Base distinguished name for groups: ou=groups,dc=kamino,dc=labs
@@ -31,9 +31,9 @@ bash <(curl -sfL https://raw.githubusercontent.com/evanjd711/TipocaCity/main/ins
 	e. Click Add.
 		- If adding Kamino as an Identity Source fails, ensure that your LDAP Admin Password is correct and that your Kamino FQDN is resolvable from your vCenter Server.
 5. Give Kamino Users read-only permissions to Kamino's parent resource pool.
-	a. Navigate to Inventory > Hosts and Clusters.
-	b. Right click on the parent resource pool and click Add Permission.
-	c. Select the following:
+	- Navigate to Inventory > Hosts and Clusters.
+	- Right click on the parent resource pool and click Add Permission.
+	- Select the following:
 		- Domain: kamino.labs
 		- Group: Kamino Users
 		- Role: Read-only
