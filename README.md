@@ -12,9 +12,9 @@ VM Lab Infrastructure in a Box
 ## Installation
 1. Read the [Configuration](#configuration) section. Depending on how you want your installation to run, you will need to configure your environment accordingly.
 2. Run the following command on your Linux VM.
-	```bash
-	bash <(curl -sfL https://raw.githubusercontent.com/evanjd711/TipocaCity/main/install.sh)
-	```
+```bash
+bash <(curl -sfL https://raw.githubusercontent.com/evanjd711/TipocaCity/main/install.sh)
+```
 3. Follow the prompts to configure your environment.
 4. Add Kamino as an Identity Source to vCenter.
 	a. Navigate to Administration > Single Sign-On > Configuration.
