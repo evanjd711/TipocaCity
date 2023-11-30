@@ -16,6 +16,28 @@ VM Lab Infrastructure in a Box
 	bash <(curl -sfL https://raw.githubusercontent.com/evanjd711/TipocaCity/main/install.sh)
 	```
 3. Follow the prompts to configure your environment.
+4. Add Kamino as an Identity Source to vCenter.
+	a. Navigate to Administration > Single Sign-On > Configuration.
+	b. Click the Identity Sources tab.
+	c. Click Add and choose Open LDAP for Identity Source Type.
+	d. Set the following parameters:
+		- Identity source name: Kamino
+		- Base distinguished name for users: ou=users,dc=kamino,dc=labs
+		- Base distinguished name for groups: ou=groups,dc=kamino,dc=labs
+		- Domain Name: kamino.labs
+		- Username: cn=admin,dc=kamino,dc=labs
+		- Password: <LDAP Admin Password>
+		- Primary Server URL: ldap://<Kamino FQDN>:389
+	e. Click Add.
+		- If adding Kamino as an Identity Source fails, ensure that your LDAP Admin Password is correct and that your Kamino FQDN is resolvable from your vCenter Server.
+5. Give Kamino Users read-only permissions to Kamino's parent resource pool.
+	a. Navigate to Inventory > Hosts and Clusters.
+	b. Right click on the parent resource pool and click Add Permission.
+	c. Select the following:
+		- Domain: kamino.labs
+		- Group: Kamino Users
+		- Role: Read-only
+
 
 ## Configuration
 All of the following configurations are required for Kamino to function properly. If you do not configure your environment correctly, Kamino will not work as intended.
@@ -40,7 +62,8 @@ All of the following configurations are required for Kamino to function properly
 | Kamino Port Group Suffix   | Port groups created by Kamino will end in this suffix preceded by an underscore. (e.g. 1801_KaminoNetwork) | KaminoNetwork |
 | Maximum Pods per User      | The maximum number of pods one user can deploy. | 5 |
 | Template Folder            | The name of the folder Kamino will use to search for VM templates. | Templates |
-| LDAP Admin Password        | The password of the LDAP admin account. | N/A | 
+| LDAP Admin Password        | The password of the LDAP admin account. | N/A |
+| Kamino FQDN                | The FQDN of the Kamino server. | N/A |
 
 ## Important Notes
 - Kamino uses four digit integers to identify deployed resources (e.g. 1801). This is for organization and easy teardown of resources. It also uses these identifiers for the VLAN IDs of the port groups it creates. This significantly reduces network traffic caused by broadcast traffic; however, if you are running a vSphere environment with multiple ESXi hosts you will need to ensure that your network is configured to allow traffic between these VLANs. The switchports your ESXi's are connected to will need to be configured as trunk ports with all of the VLANs Kamino uses allowed on them.

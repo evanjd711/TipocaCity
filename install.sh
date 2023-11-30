@@ -172,7 +172,7 @@ if [ -z "$ldapadminpassword" ]; then
 fi
 export ldapadminpassword=$ldapadminpassword
 
-echo -ne "${CYAN}FQDN to Access the Web Application (Example: kamino.sdc.cpp): ${NC}"
+echo -ne "${CYAN}FQDN to Kamino to Use (Example: kamino.your.domain): ${NC}"
 read fqdn
 
 echo -ne "${CYAN}Password for pfSense NAT Template: ${NC}(Default: pfsense): "
