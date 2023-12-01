@@ -167,7 +167,7 @@ templatefolder=${templatefolder:-"Templates"}
 echo -ne "${CYAN}LDAP Server Admin Password: ${NC}"
 read -s ldapadminpassword
 if [ -z "$ldapadminpassword" ]; then
-    echo -e "${RED}[ERROR] - LDAP Server Admin Password is required.${NC}"
+    echo -ne "${RED}[ERROR] - LDAP Server Admin Password is required.${NC}"
     exit 1
 fi
 export ldapadminpassword=$ldapadminpassword
@@ -238,7 +238,7 @@ sed -i "s/{targetresourcepool}/$targetresourcepool/g" /opt/TipocaCity/cyclone/pw
 sed -i "s/{maindistributedswitch}/$maindistributedswitch/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
 
 cd /opt/TipocaCity
-docker-compose up
+docker-compose up -d
 
 if [ $https == "true" ]; then
     url="https://$fqdn:8080/ping"
