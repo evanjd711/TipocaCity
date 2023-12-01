@@ -162,6 +162,7 @@ portgroupsuffix=${portgroupsuffix:-"KaminoNetwork"}
 echo -ne "${CYAN}VM Template Folder ${NC}(Default: Templates): "
 read templatefolder
 templatefolder=${templatefolder:-"Templates"}
+export templatelocation=$templatefolder
 
 # LDAP Password
 echo -ne "${CYAN}LDAP Server Admin Password: ${NC}"
