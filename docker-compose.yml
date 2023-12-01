@@ -41,6 +41,7 @@ services:
         export inventorylocation='$inventorylocation'
         export pfsensepassword='$pfsensepassword'
         export templatelocation='$templatelocation'
+        export datacenter='$datacenter'
         dpkg -i ./powershell-deb/packages-microsoft-prod.deb
         apt update 
         apt install powershell ldap-utils -y
@@ -57,6 +58,7 @@ services:
         unset inventorylocation
         unset pfsensepassword
         unset templatelocation
+        unset datacenter
         go run .
 
   ldap:

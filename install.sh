@@ -82,6 +82,8 @@ if [ -z "$datacenter" ]; then
     echo -e "${RED}[ERROR] - vCenter Datacenter is required.${NC}"
     exit 1
 fi
+export datacenter=$datacenter
+
 
 # vCenter Cluster or host
 echo -ne "${CYAN}vCenter Cluster or Host ${NC}(for Resource Pools): "
