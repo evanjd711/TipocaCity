@@ -202,7 +202,7 @@ targetresourcepool  = "$targetresourcepool"
 domain = "kamino.labs"
 wanportgroup = "$wanportgroup"
 maxpodlimit = $maxpodlimit
-logPath = "/opt/TipocaCity/cyclone/logs/cyclone.log"
+logPath = "/opt/cyclone/logs/cyclone.log"
 maindistributedswitch = "$maindistributedswitch"
 EOF
 
