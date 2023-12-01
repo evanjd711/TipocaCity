@@ -204,8 +204,6 @@ wanportgroup = "$wanportgroup"
 maxpodlimit = $maxpodlimit
 logPath = "/opt/TipocaCity/cyclone/logs/cyclone.log"
 maindistributedswitch = "$maindistributedswitch"
-portgroupsuffix = "$portgroupsuffix"
-templatefolder = "$templatefolder"
 EOF
 
 # Create SSL Certs
@@ -240,7 +238,7 @@ sed -i "s/{targetresourcepool}/$targetresourcepool/g" /opt/TipocaCity/cyclone/pw
 sed -i "s/{maindistributedswitch}/$maindistributedswitch/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
 
 cd /opt/TipocaCity
-docker-compose up -d
+docker-compose up
 
 if [ $https == "true" ]; then
     url="https://$fqdn:8080/ping"
