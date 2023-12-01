@@ -241,7 +241,7 @@ sed -i "s/{targetresourcepool}/$targetresourcepool/g" /opt/TipocaCity/cyclone/pw
 sed -i "s/{maindistributedswitch}/$maindistributedswitch/g" /opt/TipocaCity/cyclone/pwsh/Kamino/Kamino.psm1
 
 cd /opt/TipocaCity
-docker-compose up
+docker-compose up -d
 
 if [ $https == "true" ]; then
     url="https://$fqdn:8080/ping"
