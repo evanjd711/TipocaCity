@@ -26,8 +26,8 @@ bash <(curl -sfL https://raw.githubusercontent.com/evanjd711/TipocaCity/main/ins
 		- Base distinguished name for groups: ou=groups,dc=kamino,dc=labs
 		- Domain Name: kamino.labs
 		- Username: cn=admin,dc=kamino,dc=labs
-		- Password: <LDAP Admin Password>
-		- Primary Server URL: ldap://<Kamino FQDN>:389
+		- Password: (LDAP Admin Password)
+		- Primary Server URL: ldap://(Kamino FQDN):389
 	e. Click Add.
 		- If adding Kamino as an Identity Source fails, ensure that your LDAP Admin Password is correct and that your Kamino FQDN is resolvable from your vCenter Server.
 5. Give Kamino Users read-only permissions to Kamino's parent resource pool.

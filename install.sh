@@ -265,5 +265,6 @@ done
 rm /opt/TipocaCity/*.pem
 rm -rf /opt/TipocaCity/cyclone/pwsh/install
 rm /opt/TipocaCity/install.sh
+rm-rf /opt/TipocaCity/ldap
 chmod 600 /opt/TipocaCity/cyclone/lib/creds/*
 chmod 600 /opt/TipocaCity/cyclone/config.conf

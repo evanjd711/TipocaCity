@@ -15,7 +15,6 @@ services:
     working_dir: /opt/kamino
     command: sh -c 'npm i && npm run -- dev'
     
-
   api:
     image: golang:latest
     restart: always
