@@ -4,3 +4,6 @@
 [submodule "kamino-frontend"]
 	path = kamino-frontend
 	url = https://github.com/dbaseqp/kamino-frontend
+[submodule "guac"]
+	path = guac
+	url = https://github.com/evanjd711/guac
